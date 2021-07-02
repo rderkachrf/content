@@ -59,23 +59,28 @@ def get_failed_tasks_output(tasks: list, incident: dict):
     number_of_error_entries = 0
 
     for task in tasks:
-        error_entries = task.get("entries", [])
-        entry = {
-            "Incident ID": incident.get("id"),
-            "Playbook Name": task.get("ancestors", [''])[0],
-            "Task Name": task.get("task", {}).get("name"),
-            "Error Entry ID": error_entries,
-            "Number of Errors": len(error_entries),
-            "Task ID": task.get("id"),
-            "Incident Created Date": incident.get("created", ''),
-            "Command Name": task.get("task", {}).get("scriptId", '').replace('|||', ''),
-            "Incident Owner": incident["owner"]
-        }
-        if task.get("task", {}).get("description"):
-            entry["Command Description"] = task.get("task", {}).get("description")
+        try:
+            error_entries = task.get("entries", [])
+            entry = {
+                "Incident ID": incident.get("id"),
+                "Playbook Name": task.get("ancestors", [''])[0],
+                "Task Name": task.get("task", {}).get("name"),
+                "Error Entry ID": error_entries,
+                "Number of Errors": len(error_entries),
+                "Task ID": task.get("id"),
+                "Incident Created Date": incident.get("created", ''),
+                "Command Name": task.get("task", {}).get("scriptId", '').replace('|||', ''),
+                "Incident Owner": incident["owner"]
+            }
+            if task.get("task", {}).get("description"):
+                entry["Command Description"] = task.get("task", {}).get("description")
 
-        number_of_error_entries += len(error_entries)
-        task_outputs.append(entry)
+            number_of_error_entries += len(error_entries)
+            task_outputs.append(entry)
+        except Exception as e:
+            demisto.debug(f'Exception received: {e}')
+            demisto.debug(f'Current task data: {task}')
+            demisto.debug(f'Current incident data: {incident}')
 
     return task_outputs, number_of_error_entries
 
