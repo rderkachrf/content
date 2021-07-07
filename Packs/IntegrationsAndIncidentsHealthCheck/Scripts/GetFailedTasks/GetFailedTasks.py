@@ -116,8 +116,10 @@ def get_incident_data(incident: dict, tenant_name: str, rest_api_instance_to_use
 
     if is_error(response):
         raise Exception(get_error(response))
-
+    demisto.debug(f'contents is: {response[0]["Contents"]}')
     tasks = response[0]["Contents"]["response"]
+    demisto.debug(f'contents are: {response[0]["Contents"]}')
+    demisto.debug(f'tasks are: {tasks}')
 
     task_outputs, tasks_error_entries_number = get_failed_tasks_output(tasks, incident)
     if task_outputs:
