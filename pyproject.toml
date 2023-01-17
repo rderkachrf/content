@@ -44,7 +44,7 @@ parinx = {git = "https://github.com/npsolve/parinx.git", rev = "6493798ceba80893
 python-gitlab = "^3.0.0"
 PyGithub = "^1.54.1"
 ansible-runner = "^2.2.0"
-paramiko = "^2.11.0"
+paramiko = "^2.12.0"
 boto3 = "^1.23.5"
 jsonschema = "^4.6.0"
 google-cloud-bigquery = "^3.2.0"
